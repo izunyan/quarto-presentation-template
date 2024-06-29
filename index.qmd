@@ -1,0 +1,315 @@
+---
+title: "template"
+date: today
+author: "やわらかクジラ"
+format: 
+  revealjs:
+    theme: dark            # 背景をダークに
+    embed-resources: true # _filesを作らない
+    code-fold: true        # コード折り畳み
+    echo: true             # コードをデフォルトで表示
+    # preview-links: auto  # webサイトをスライド内で表示→不具合多い
+    message: false         # 実行後のメッセージを非表示
+    scrollable: true       # スライドを縦にスクロール可能に
+    slide-number: true     # スライド番号
+    show-slide-number: all # スライド番号/total
+   # chalkboard: true       # embed-resources: false（デフォルトはこちら）の必要あり
+    mermaid:
+      theme: dark          # mermaidの描画をダークに
+
+# jupyter: python3 # Pythonのみならこちらを指定
+---
+
+
+# Quarto解説
+
+## Quartoとは
+
+::: columns
+::: {.column width="40%"}
+![](image/d56e252c-00fa-4ff5-ab0b-d1c9acf8a3af_rw_1200.png)
+:::
+
+::: {.column width="60%"}
+![](image/c2ef45f1-4a68-4c7a-a43f-bdcf0f90e104_rw_1200.png)
+:::
+:::
+
+
+
+::: aside 
+Artwork from "Hello, Quarto" keynote by Julia Lowndes and Mine Çetinkaya-Rundel, presented at RStudio Conference 2022. Illustrated by Allison Horst.
+:::
+
+## Quartoとは
+<!-- {.smaller} -->
+
+::: incremental
+-   オープンソースの科学技術出版システム
+-   複数言語の動的コンテンツを作成
+    -   Python, R, Julia, Observable
+-   様々な出力が可能
+    -   論文，プレゼン，ダッシュボード，ブログ，本など
+    -   形式：HTML, PDF, MS Wordなど
+:::
+
+<!-- これでもフェードインできる -->
+<!-- . . . -->
+
+::: {.fragment}
+
+🔨本スライドは[Quarto](https://quarto.org/)で作ってみました 
+:::
+
+
+
+
+
+## Quartoの仕組み
+
+-   ドキュメント変換ツールであるPandocを使用
+
+![](image/b5217f2a-f129-4bf9-90dc-c5b9783d0ea8_rw_1200.png)
+
+::: aside
+Artwork from "Hello, Quarto" keynote by Julia Lowndes and Mine Çetinkaya-Rundel, presented at RStudio Conference 2022. Illustrated by Allison Horst.
+:::
+
+## ipynbファイルとの相互変換
+
+``` {.bash filename="Terminal"}
+quarto convert basics-jupyter.ipynb # converts to qmd
+quarto convert basics-jupyter.qmd   # converts to ipynb
+```
+
+## 箇条書きで説明
+
+- 1つ目
+- 2つ目
+- 3つ目
+- 4つ目[^1]
+
+
+[^1]: ここに注釈
+
+
+
+
+
+## 文字を小さくする{.smaller}
+
+- 1つ目
+- 2つ目
+- 3つ目
+- 4つ目
+
+
+
+
+
+## 2列
+
+::: columns
+::: {.column width="50%"}
+幅：50%
+
+-   R
+-   RStudio
+:::
+
+::: {.column width="50%"}
+幅：50%
+
+![](image/151b3f30-b75a-4f57-b0e5-228c4cc3fd02_rw_1200.png)
+
+:::
+:::
+
+::: aside
+CC BY Artwork by @allison_horst
+:::
+
+## コードと出力
+
+::: incremental
+-   コードとその出力結果を埋め込める
+
+```{python}
+1 + 1
+```
+
+-   このスライドの上半分はこう書かれている
+
+:::
+
+::: {.fragment}
+![](image/oneplusone.png)
+
+:::
+
+
+## グラフ {.smaller}
+
+-   コードとその出力グラフも埋め込める
+    -   デフォルトではコードは非表示
+
+```{python}
+#| label: fig-scat
+#| fig-cap: 散布図
+
+import seaborn as sns
+df = sns.load_dataset("penguins")
+
+sns.scatterplot(data = df, x="bill_length_mm", y="bill_depth_mm", hue="species")
+
+
+
+```
+
+## 長くなっても縦にスクロールできる
+
+あ  
+あ  
+あ  
+あ  
+あ  
+あ  
+あ  
+あ  
+あ  
+あ  
+あ  
+あ  
+あ  
+あ  
+あ  
+あ  
+あ  
+あ  
+あ  
+あ  
+あ  
+
+
+
+## タブ表示も可能
+
+::: panel-tabset
+### グラフ1
+
+```{python}
+#| echo: false
+sns.scatterplot(data = df, x="bill_length_mm", y="flipper_length_mm", hue="species")
+
+```
+
+### グラフ2
+
+```{python}
+#| echo: false
+sns.scatterplot(data = df, x="bill_depth_mm", y="body_mass_g", hue="species")
+
+```
+:::
+
+## RとPython
+
+::: panel-tabset
+### R
+
+```{r}
+library(ggplot2)
+
+ggplot(palmerpenguins::penguins) +
+  geom_point(aes(bill_depth_mm, body_mass_g, color = species))
+```
+
+### Python
+
+```{python}
+sns.scatterplot(data = df, x="bill_depth_mm", y="body_mass_g", hue="species")
+```
+:::
+
+
+## 相互参照 {visibility="hidden"}
+
+- 動かないのでこのスライドは非表示
+
+@fig-scat
+
+::: fragment
+なぜか動作しない...
+:::
+
+## mermaidでダイアグラムが描ける{.smaller}
+
+-   テキスト指定で作図ができる
+
+-   [Quarto公式ドキュメントでの説明](https://quarto.org/docs/authoring/diagrams.html)
+
+::: {.fragment}
+
+
+```{mermaid}
+%%| echo: fenced
+
+flowchart LR
+　　A[四角] --> B(丸四角)
+　　B --> C{決定}
+　　C --> D[結果1]
+　　C --> E[結果2]
+```
+
+:::
+
+<!-- ::: {.fragment} -->
+
+<!-- - 本来はこういう図になるはず -->
+
+<!-- ![](image/flowchart.JPG) -->
+<!-- ::: -->
+
+
+## mermaidでガントチャートが描ける
+
+-   スケジュールの図示などにも
+
+```{mermaid}
+gantt
+    title スケジュール
+    dateFormat YYYY-MM-DD
+    section セクション1
+        タスク1    :a1, 2014-01-01, 30d
+        タスク2    :after a1, 20d
+    section セクション2
+        タスク3    :2014-01-12, 12d
+        タスク4    :24d
+        マイルストーン :milestone, isadded, 2014-01-24, 0d
+```
+
+
+## 動かせる地図
+
+```{r}
+#| echo: false
+
+
+library(leaflet)
+leaflet() |> 
+  addTiles()  |>   # Add default OpenStreetMap map tiles
+  setView(lng=138.8973953084644, lat=35.020797172715646, zoom = 8) |> # 初期座標とズーム倍率 
+  addMarkers(lng=138.8973953084644, lat=35.020797172715646, 
+             popup="三津海水浴場")
+# |>
+#   addMarkers(lng=, lat=, 
+#              popup="") 
+```
+
+## 非表示スライド {visibility="hidden"}
+
+-   test
+
+<!-- ## 非カウントスライド {visibility="uncounted"} -->
+
+<!-- -  test -->
